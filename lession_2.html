@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>单个表单项的检验</title>
+</head>
+<body>
+    <div>
+        名称:<input type="text" name="name" id="name" onfocus="show_tip('ts')" onblur="check_txt('name','ts')">
+        <p class="" id="ts"></p>
+        密码:<input type="text" name="pwd" id="pwd" onfocus="show_tip('ts2')" onblur="check_txt('pwd','ts2')">
+        <p class="" id="ts2"></p>
+        确认:<input type="text" name="repwd" id="repwd" onfocus="show_tip('ts3')" onblur="check_txt('repwd','ts3')">
+        <p class="" id="ts3"></p>
+        邮箱:<input type="text" name="email" id="email" onfocus="show_tip('ts4')" onblur="check_txt('email','ts4')">
+        <p class="" id="ts4"></p>
+        手机:<input type="text" name="tel" id="tel" onfocus="show_tip('ts5')" onblur="check_txt('tel','ts5')">
+        <p class="" id="ts5"></p>
+        <input type="submit" name="" value="验证" onclick="check_all()" >
+    </div>
+    <script>
+    function show_tip(tipId,tipVal='必填，长度为4-16字符')
+    {
+        var tip = document.getElementById(tipId);
+        if(tip.innerHTML==""){tip.innerHTML = tipVal;}
+    }
+
+    /********************
+    * mz需要检查的id;
+    * tishi显示提示信息的id;
+    * min最小字符数;
+    * nax最大字符数;
+    **********************/
+    function check_txt(mz,tishi,min = 6,max = 14)
+    {
+        var name = document.getElementById(mz);
+        var ts = document.getElementById(tishi);
+        if(name.value==null || name.value=='')
+        {
+            //验证是否为空
+            ts.innerHTML='此项不能为空';
+            ts.style.color = 'red';
+            name.style.border = '1px solid red';
+            return;
+        }else{
+            var math = check_num(name);
+            if(math>=min && math<=max)
+            {
+                ts.innerHTML='此项格式正确';
+                ts.style.color = 'green';
+                name.style.border = '1px solid green';
+                return true;
+            }else{
+                ts.style.color = 'red';
+                if(math<min)
+                {
+                    ts.innerHTML='字符数少于'+min+'位';
+                    return false;
+                }else{
+                    ts.innerHTML='字符数大于'+max+'位';
+                    return false;
+                }
+            }
+        }
+    }
+
+    /********************
+    * name需要检查的变量或id名字;
+    * return 字数
+    **********************/
+    function check_num(name)
+    {
+        if(Object.prototype.toString.call(name) == '[object String]'){name = document.getElementById(name)}
+        var math = Number(name.value.replace(/[^\u0000-\u00ff]/g,'aa').length);
+        return math;
+    }
+    /********************
+    * num 被检测的字数;
+    * return 返回是否符合字数判断
+    **********************/
+    function check_result(num,min=6,max=14)
+    {
+        if(num>=min && num<=max){return true}else{return false}
+    }
+    function check_all()
+    {
+        if(
+            check_result(check_num('name')) &&
+            check_result(check_num('pwd')) &&
+            check_result(check_num('repwd')) &&
+            check_result(check_num('email')) &&
+            check_result(check_num('tel'))
+          )
+        {
+            return true;
+        }else{
+            alert('输入有误');
+        }
+    }
+    </script>
+</body>
+</html>
