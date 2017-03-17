@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>单个表单项的检验</title>
+</head>
+<body>
+    <div>
+        <input type="text" name="name" id="name">
+        <input type="submit" name="" value="验证" onclick="check_txt('name','ts')">
+        <p class="" id="ts"></p>
+    </div>
+    <script>
+    /********************
+    * mz需要检查的id;
+    * tishi显示提示信息的id;
+    * min最小字符数;
+    * nax最大字符数;
+    **********************/
+    function check_txt(mz,tishi,min = 6,max = 14)
+    {
+        var name = document.getElementById(mz);
+        var ts = document.getElementById(tishi);
+        if(name.value==null || name.value=='')
+        {
+            //验证是否为空
+            ts.innerHTML='此项不能为空';
+            ts.style.color = 'red';
+            name.style.border = '1px solid red';
+            return;
+        }else{
+            var math = Number(name.value.replace(/[^\u0000-\u00ff]/g,'aa').length);
+            if(math>=min && math<=max)
+            {
+                ts.innerHTML='此项格式正确';
+                ts.style.color = 'green';
+                name.style.border = '1px solid green';
+            }else{
+                ts.innerHTML='字符数大于'+max+'位';
+                ts.style.color = 'red';
+                if(math<min)
+                {
+                    ts.innerHTML='字符数少于'+min+'位';
+                }else{
+                    ts.innerHTML='字符数大于'+max+'位';
+                }
+            }
+        }
+    }
+    </script>
+</body>
+</html>
