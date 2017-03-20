@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>联动</title>
+    <style type="text/css">
+        .content{padding:50px;}
+    </style>
+</head>
+<body>
+    <div class="content">
+        <form action="lession_3_submit">
+        <table border="1">
+            <tbody id="f_tab">
+                <tr>
+                    <td><label><input type="radio" name="school" onchange="load_tab('load_tab','in')" checked="checked">在校生</label></td>
+                    <td><label><input type="radio" name="school" onchange="load_tab('load_tab','no')">非在校生</label></td>
+                </tr>
+                <tr id="load_tab">
+                    <td>
+                        学校
+                        <select name="city" id="city" onchange="getTwoMenu(this,'load_tab')">
+                            <option value="0">地区</option>
+                            <option value="1">上海</option>
+                            <option value="2">北京</option>
+                        </select>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        </form>
+    </div>
+    <script>
+        /**
+         * @active 需要显示的节点
+         * @hidden 需要隐藏的节点
+         */
+        function load_tab(load_tab,type)
+        {
+            var load_tab = document.getElementById(load_tab);
+            var f_tab = document.getElementById('f_tab');
+            var tr = document.createElement('tr');
+            load_tab.parentNode.removeChild(load_tab);
+            tr.setAttribute('id','load_tab');
+            if(type == 'no'){
+                tr.innerHTML = '<td colspan="2">就业单位:<input type="text" name="work_name"></td>';
+            }else{
+                tr.innerHTML = '<td>学校<select name="city" id="city" onchange="getTwoMenu(this,\'load_tab\')"><option value="0">地区</option><option value="1">上海</option><option value="2">北京</option></select></td>';
+            }
+            f_tab.append(tr)
+        }
+
+        function getOption(city)
+        {
+            var index=city.selectedIndex;
+            var val = city.options[index].value;
+            return val;
+        }
+        /**
+         * @city  选中的城市
+         * @load_tab  输出的节点
+         */
+        function getTwoMenu(city,load_tab)
+        {
+            var load_tab = document.getElementById(load_tab);
+            if(load_tab.childNodes[1])
+            {
+                load_tab.removeChild(load_tab.lastChild);
+            }
+            var val = getOption(city);
+            switch(Number(val))
+            {
+                case 1:
+                    var arr = new Array('上海小学','上海中学','上海大学');
+                break;
+                case 2:
+                    var arr = new Array('北京小学','北京中学','北京大学');
+                break;
+            }
+            if(val > 0)
+            {
+                var main = '<td><select name="school">';
+                var tr = document.createElement('tr');
+                for (var i = 0; i < arr.length; i++)
+                {
+                    main += '<option value="'+i+'">'+arr[i]+'</option>';
+                }
+                main += '</select></td>';
+                tr.innerHTML = main;
+                load_tab.append(tr)
+            }
+        }
+    </script>
+</body>
+</html>
