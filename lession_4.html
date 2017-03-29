@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>听指令的小方块</title>
+    <style type="text/css">
+        .content{width:372px;height:372px;margin:40px;border:1px solid #000;position:relative;}
+        .con{width:30px;height:30px;float:left;border:1px solid #ccc;border-left:none;border-top:none;}
+        .last_con{width:372px;height:30px;border:none;float:left;}
+        .user{background-color:red;position:absolute;border:none;}
+        .user_header{width:30px;height:10px;background-color:blue;}
+    </style>
+</head>
+<body>
+    <div class="content">
+        <div class="con user" id="user" direction="shang" style="top:186px;left:186px;transform:rotate(0deg);">
+            <div class="user_header"></div>
+        </div>
+        <div class="con"></div>
+        <div class="con">1</div>
+        <div class="con">2</div>
+        <div class="con">3</div>
+        <div class="con">4</div>
+        <div class="con">5</div>
+        <div class="con">6</div>
+        <div class="con">7</div>
+        <div class="con">8</div>
+        <div class="con">9</div>
+        <div class="con">10</div>
+        <div class="con"></div>
+        <div class="con">1</div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con">2</div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con">3</div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con">4</div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con">5</div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con">6</div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con">7</div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con">8</div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con">9</div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con">10</div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="last_con">
+            <input type="text" id="main" name="" style="margin:5px 0px 0px 5px">
+            <input type="submit" name="" value="执行" onclick="use('main')">
+        </div>
+    </div>
+</body>
+<script>
+    var user = {
+        creatNew:function()
+        {
+            var user = {}
+            user.craft = document.getElementById('user');
+            user.getTop = function ()
+            {
+                var top = parseInt(user.craft.style.top);
+                return top;
+            }
+            user.getLeft = function ()
+            {
+                var left = parseInt(user.craft.style.left);
+                return left;
+            }
+            //获取数字
+            user.getNum = function(text)
+            {
+                var value = parseInt(text.replace(/[^-0-9]/ig,""));
+                return value;
+            }
+            //获取旋转数据
+            user.getDeg = function ()
+            {
+                var deg = user.getNum(user.craft.style.transform);
+                return deg;
+            }
+            //获取方向
+            user.getDdi = function()
+            {
+                var ddi = user.craft.getAttribute('direction');
+                return ddi;
+            }
+            //改变方向
+            user.changeDdi = function(Deg)
+            {
+                var Ddi = user.getDdi();
+                switch(Deg)
+                {
+                    case 'left':
+                        switch(Ddi)
+                        {
+                            case 'shang':
+                                user.craft.setAttribute('direction','zuo');
+                            break;
+                            case 'zuo':
+                                user.craft.setAttribute('direction','xia');
+                            break;
+                            case 'xia':
+                                user.craft.setAttribute('direction','you');
+                            break;
+                            case 'you':
+                                user.craft.setAttribute('direction','shang');
+                            break;
+                        }
+                    break;
+                    case 'right':
+                        switch(Ddi)
+                        {
+                            case 'shang':
+                                user.craft.setAttribute('direction','you');
+                            break;
+                            case 'you':
+                                user.craft.setAttribute('direction','xia');
+                            break;
+                            case 'xia':
+                                user.craft.setAttribute('direction','zuo');
+                            break;
+                            case 'zuo':
+                                user.craft.setAttribute('direction','shang');
+                            break;
+                        }
+                    break;
+                    case 'bac':
+                        switch(Ddi)
+                        {
+                            case 'shang':
+                                user.craft.setAttribute('direction','xia');
+                            break;
+                            case 'you':
+                                user.craft.setAttribute('direction','zuo');
+                            break;
+                            case 'xia':
+                                user.craft.setAttribute('direction','shang');
+                            break;
+                            case 'zuo':
+                                user.craft.setAttribute('direction','you');
+                            break;
+                        }
+                    break;
+                }
+            }
+            //左转
+            user.tunLeft = function()
+            {
+                user.changeDdi('left');
+                var deg = user.getDeg();
+                user.craft.style.transform = 'rotate('+(deg-90)+'deg)';
+            }
+            //右转
+            user.tunRight = function()
+            {
+                user.changeDdi('right');
+                var deg = user.getDeg();
+                user.craft.style.transform = 'rotate('+(deg+90)+'deg)';
+            }
+            //回转
+            user.tunBac = function()
+            {
+                user.changeDdi('bac');
+                var deg = user.getDeg();
+                user.craft.style.transform = 'rotate('+(deg+180)+'deg)';
+            }
+            //前进一格
+            user.go = function()
+            {
+                var ddi = user.getDdi();
+                var top = user.getTop();
+                var left = user.getLeft();
+                switch(ddi)
+                {
+                    case 'shang':
+                        if(top == 31){alert('不能前进了');return false;}
+                        user.craft.style.top = (top-31)+'px';   //上
+                    break;
+                    case 'xia':
+                        if(top == 310){alert('不能前进了');return false;}
+                        user.craft.style.top = (top+31)+'px';   //下
+                    break;
+                    case 'you':
+                        if(left == 310){alert('不能前进了');return false;}
+                        user.craft.style.left = (left+31)+'px';  //右
+                    break;
+                    case 'zuo':
+                        if(left == 31){alert('不能前进了');return false;}
+                        user.craft.style.left = (left-31)+'px';  //左
+                    break;
+                    default:
+                    alert('输入错误')
+                }
+            }
+            return user;
+        }
+    }
+    function use(ele)
+    {
+        var user1 = user.creatNew();
+        var command = document.getElementById(ele).value;
+        switch(command)
+        {
+        case 'GO':
+            user1.go();
+          break;
+        case 'L':
+          user1.tunLeft();
+          break;
+        case 'R':
+          user1.tunRight();
+          break;
+        case 'B':
+          user1.tunBac();
+          break;
+        default:
+          alert('输入错误')
+        }
+    }
+</script>
+</html>
