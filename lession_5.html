@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>听指令的小方块</title>
+    <style type="text/css">
+        .content{width:372px;height:372px;margin:40px;border:1px solid #000;position:relative;}
+        .con{width:30px;height:30px;float:left;border:1px solid #ccc;border-left:none;border-top:none;}
+        .last_con{width:372px;height:30px;border:none;float:left;}
+        .user{background-color:red;position:absolute;border:none;}
+        .user_header{width:30px;height:10px;background-color:blue;}
+    </style>
+</head>
+<body>
+    <div class="content">
+        <div class="con user" id="user" direction="shang" style="transition:width 5s;top:186px;left:186px;transform:rotate(0deg);">
+            <div class="user_header"></div>
+        </div>
+        <div class="con"></div>
+        <div class="con">1</div>
+        <div class="con">2</div>
+        <div class="con">3</div>
+        <div class="con">4</div>
+        <div class="con">5</div>
+        <div class="con">6</div>
+        <div class="con">7</div>
+        <div class="con">8</div>
+        <div class="con">9</div>
+        <div class="con">10</div>
+        <div class="con"></div>
+        <div class="con">1</div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con">2</div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con">3</div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con">4</div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con">5</div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con">6</div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con">7</div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con">8</div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con">9</div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con">10</div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="con"></div>
+        <div class="last_con">
+            <input type="text" id="main" name="" style="margin:5px 0px 0px 5px">
+            <input type="submit" id="sub" name="" value="执行" onclick="use('main')">
+        </div>
+    </div>
+    <div>
+        <ul>
+            <li>GO：向蓝色边所面向的方向前进一格（一格等同于正方形的边长）</li>
+            <li>L：向左转（逆时针旋转90度）</li>
+            <li>R：向右转（顺时针旋转90度）</li>
+            <li>B：向后转（旋转180度）</li>
+            <li>TL：向屏幕的左侧移动一格，方向不变</li>
+            <li>TT：向屏幕的上面移动一格，方向不变</li>
+            <li>TR：向屏幕的右侧移动一格，方向不变</li>
+            <li>TB：向屏幕的下面移动一格，方向不变</li>
+            <li>ML：方向转向屏幕左侧，并向屏幕的左侧移动一格</li>
+            <li>MT：方向转向屏幕上面，向屏幕的上面移动一格</li>
+            <li>MR：方向转向屏幕右侧，向屏幕的右侧移动一格</li>
+            <li>MB：方向转向屏幕下面，向屏幕的下面移动一格</li>
+        </ul>
+    </div>
+</body>
+<script>
+    var user = {
+        creatNew:function()
+        {
+            var user = {}
+            user.craft = document.getElementById('user');
+            user.getTop = function ()
+            {
+                var top = parseInt(user.craft.style.top);
+                return top;
+            }
+            user.getLeft = function ()
+            {
+                var left = parseInt(user.craft.style.left);
+                return left;
+            }
+            //获取数字
+            user.getNum = function(text)
+            {
+                var value = parseInt(text.replace(/[^-0-9]/ig,""));
+                return value;
+            }
+            //获取旋转数据
+            user.getDeg = function ()
+            {
+                var deg = user.getNum(user.craft.style.transform);
+                return deg;
+            }
+            //获取方向
+            user.getDdi = function()
+            {
+                var ddi = user.craft.getAttribute('direction');
+                return ddi;
+            }
+            //改变方向
+            user.changeDdi = function(Deg)
+            {
+                var Ddi = user.getDdi();
+                switch(Deg)
+                {
+                    case 'left':
+                        switch(Ddi)
+                        {
+                            case 'shang':
+                                user.craft.setAttribute('direction','zuo');
+                            break;
+                            case 'zuo':
+                                user.craft.setAttribute('direction','xia');
+                            break;
+                            case 'xia':
+                                user.craft.setAttribute('direction','you');
+                            break;
+                            case 'you':
+                                user.craft.setAttribute('direction','shang');
+                            break;
+                        }
+                    break;
+                    case 'right':
+                        switch(Ddi)
+                        {
+                            case 'shang':
+                                user.craft.setAttribute('direction','you');
+                            break;
+                            case 'you':
+                                user.craft.setAttribute('direction','xia');
+                            break;
+                            case 'xia':
+                                user.craft.setAttribute('direction','zuo');
+                            break;
+                            case 'zuo':
+                                user.craft.setAttribute('direction','shang');
+                            break;
+                        }
+                    break;
+                    case 'bac':
+                        switch(Ddi)
+                        {
+                            case 'shang':
+                                user.craft.setAttribute('direction','xia');
+                            break;
+                            case 'you':
+                                user.craft.setAttribute('direction','zuo');
+                            break;
+                            case 'xia':
+                                user.craft.setAttribute('direction','shang');
+                            break;
+                            case 'zuo':
+                                user.craft.setAttribute('direction','you');
+                            break;
+                        }
+                    break;
+                }
+            }
+            //左转
+            user.tunLeft = function()
+            {
+                user.changeDdi('left');
+                var deg = user.getDeg();
+                //设置动画
+                var last = deg - 90;
+                var time = setInterval(function()
+                {
+                    user.craft.style.transform = 'rotate('+(user.getDeg()-1)+'deg)';
+                    if(user.getDeg() <= last)
+                    {
+                        clearInterval(time);
+                    }
+                },20)
+                // user.craft.style.transform = 'rotate('+(deg-90)+'deg)';
+            }
+            //右转
+            user.tunRight = function()
+            {
+                user.changeDdi('right');
+                var deg = user.getDeg();
+                //设置动画
+                var last = deg + 90;
+                var time = setInterval(function()
+                {
+                    user.craft.style.transform = 'rotate('+(user.getDeg()+1)+'deg)';
+                    if(user.getDeg() >= last)
+                    {
+                        clearInterval(time);
+                    }
+                },20)
+                // user.craft.style.transform = 'rotate('+(deg+90)+'deg)';
+            }
+            //回转
+            user.tunBac = function()
+            {
+                user.changeDdi('bac');
+                var deg = user.getDeg();
+                //设置动画
+                var last = deg + 180;
+                var time = setInterval(function()
+                {
+                    user.craft.style.transform = 'rotate('+(user.getDeg()+2)+'deg)';
+                    if(user.getDeg() >= last)
+                    {
+                        clearInterval(time);
+                    }
+                },20)
+                // user.craft.style.transform = 'rotate('+(deg+180)+'deg)';
+            }
+            //转向+移动一同完成
+            user.move = function(u)
+            {
+                //检测现在方向
+                var Ddi = user.getDdi();
+                //转向
+                switch(u)
+                {
+                    case 'shang':
+                        switch(Ddi)
+                        {
+                            case 'shang':
+                                user.go();return;
+                            break;
+                            case 'zuo':
+                                user.tunRight();
+                            break;
+                            case 'xia':
+                                user.tunBac();
+                            break;
+                            case 'you':
+                                user.tunLeft();
+                            break;
+                        }
+                    break;
+                    case 'xia':
+                        switch(Ddi)
+                        {
+                            case 'shang':
+                                user.tunBac();
+                            break;
+                            case 'zuo':
+                                user.tunLeft();
+                            break;
+                            case 'xia':
+                                user.go();return;
+                            break;
+                            case 'you':
+                                user.tunRight();
+                            break;
+                        }
+                    break;
+                    case 'zuo':
+                        switch(Ddi)
+                        {
+                            case 'shang':
+                                user.tunLeft();
+                            break;
+                            case 'zuo':
+                                user.go();return;
+                            break;
+                            case 'xia':
+                                user.tunRight();
+                            break;
+                            case 'you':
+                                user.tunBac();
+                            break;
+                        }
+                    break;
+                    case 'you':
+                        switch(Ddi)
+                        {
+                            case 'shang':
+                                user.tunRight();
+                            break;
+                            case 'zuo':
+                                user.tunBac();
+                            break;
+                            case 'xia':
+                                user.tunLeft();
+                            break;
+                            case 'you':
+                                user.go();return;
+                            break;
+                        }
+                    break;
+                }
+                setTimeout(function(){user.go()},1900);
+
+            }
+            //无视朝向移动
+            user.run = function(u)
+            {
+                var top = user.getTop();
+                var left = user.getLeft();
+                switch(u)
+                {
+                    case 'shang':
+                        if(top == 31){alert('不能前进了');return false;}
+                        //设置动画
+                        var last = parseInt(user.craft.style.top) - 31;
+                        var time = setInterval(function()
+                        {
+                            user.craft.style.top = (parseInt(user.craft.style.top)-1)+'px';
+                            if(parseInt(user.craft.style.top) <= last)
+                            {
+                                clearInterval(time);
+                            }
+                        },20)
+                    break;
+                    case 'xia':
+                        if(top == 310){alert('不能前进了');return false;}
+                        //设置动画
+                        var last = parseInt(user.craft.style.top) + 31;
+                        var time = setInterval(function()
+                        {
+                            user.craft.style.top = (parseInt(user.craft.style.top)+1)+'px';
+                            if(parseInt(user.craft.style.top) >= last)
+                            {
+                                clearInterval(time);
+                            }
+                        },20)
+                    break;
+                    case 'you':
+                        if(left == 310){alert('不能前进了');return false;}
+                        //设置动画
+                        var last = parseInt(user.craft.style.left) + 31;
+                        var time = setInterval(function()
+                        {
+                            user.craft.style.left = (parseInt(user.craft.style.left)+1)+'px';
+                            if(parseInt(user.craft.style.left) >= last)
+                            {
+                                clearInterval(time);
+                            }
+                        },20)
+                    break;
+                    case 'zuo':
+                        if(left == 31){alert('不能前进了');return false;}
+                        //设置动画
+                        var last = parseInt(user.craft.style.left) - 31;
+                        var time = setInterval(function()
+                        {
+                            user.craft.style.left = (parseInt(user.craft.style.left)-1)+'px';
+                            if(parseInt(user.craft.style.left) <= last)
+                            {
+                                clearInterval(time);
+                            }
+                        },20)
+                    break;
+                    default:
+                    alert('输入错误')
+                }
+            }
+            //前进一格
+            user.go = function()
+            {
+                var ddi = user.getDdi();
+                var top = user.getTop();
+                var left = user.getLeft();
+                switch(ddi)
+                {
+                    case 'shang':
+                        if(top == 31){alert('不能前进了');return false;}
+                        //设置动画
+                        var last = parseInt(user.craft.style.top) - 31;
+                        var time = setInterval(function()
+                        {
+                            user.craft.style.top = (parseInt(user.craft.style.top)-1)+'px';
+                            if(parseInt(user.craft.style.top) <= last)
+                            {
+                                clearInterval(time);
+                            }
+                        },20)
+                        // user.craft.style.top = (top-31)+'px';   //上
+                    break;
+                    case 'xia':
+                        if(top == 310){alert('不能前进了');return false;}
+                        //设置动画
+                        var last = parseInt(user.craft.style.top) + 31;
+                        var time = setInterval(function()
+                        {
+                            user.craft.style.top = (parseInt(user.craft.style.top)+1)+'px';
+                            if(parseInt(user.craft.style.top) >= last)
+                            {
+                                clearInterval(time);
+                            }
+                        },20)
+                        // user.craft.style.top = (top+31)+'px';   //下
+                    break;
+                    case 'you':
+                        if(left == 310){alert('不能前进了');return false;}
+                        //设置动画
+                        var last = parseInt(user.craft.style.left) + 31;
+                        var time = setInterval(function()
+                        {
+                            user.craft.style.left = (parseInt(user.craft.style.left)+1)+'px';
+                            if(parseInt(user.craft.style.left) >= last)
+                            {
+                                clearInterval(time);
+                            }
+                        },20)
+                        // user.craft.style.left = (left+31)+'px';  //右
+                    break;
+                    case 'zuo':
+                        if(left == 31){alert('不能前进了');return false;}
+                        //设置动画
+                        var last = parseInt(user.craft.style.left) - 31;
+                        var time = setInterval(function()
+                        {
+                            user.craft.style.left = (parseInt(user.craft.style.left)-1)+'px';
+                            if(parseInt(user.craft.style.left) <= last)
+                            {
+                                clearInterval(time);
+                            }
+                        },20)
+                        // user.craft.style.left = (left-31)+'px';  //左
+                    break;
+                    default:
+                    alert('输入错误')
+                }
+            }
+            return user;
+        }
+    }
+    function use(ele)
+    {
+        var user1 = user.creatNew();
+        var command = document.getElementById(ele).value;
+        var sub = document.getElementById('sub');
+        sub.disabled=true;
+        switch(command)
+        {
+        case 'GO':
+            user1.go();
+          break;
+        case 'L':
+          user1.tunLeft();
+          break;
+        case 'R':
+          user1.tunRight();
+          break;
+        case 'B':
+          user1.tunBac();
+          break;
+        case 'TL':
+          user1.run('zuo');
+          break;
+        case 'TT':
+          user1.run('shang');
+          break;
+        case 'TR':
+          user1.run('you');
+          break;
+        case 'TB':
+          user1.run('xia');
+          break;
+        case 'ML':
+          user1.move('zuo');
+          break;
+        case 'MT':
+          user1.move('shang');
+          break;
+        case 'MR':
+          user1.move('you');
+          break;
+        case 'MB':
+          user1.move('xia');
+          break;
+        default:
+          alert('输入错误')
+        }
+        setTimeout(function(){sub.disabled=false;},2500)
+    }
+
+</script>
+</html>
