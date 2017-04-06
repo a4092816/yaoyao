@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>表格接口</title>
+    <style type="text/css">
+        #test_tab{
+            border-right:1px solid #999;
+            border-bottom:1px solid #999;
+        }
+        #test_tab td,#test_tab th
+        {
+            text-align:center;
+            border-left:1px solid #999;
+            border-top:1px solid #999;
+            padding:10px 50px;
+        }
+        #test_tab th
+        {
+            background-color:#666;
+            color:#fff;
+        }
+    </style>
+</head>
+<body>
+    <input type="button" name="" value="创建" onclick="test()">
+    <div id="tab">
+    </div>
+</body>
+<script>
+function test()
+{
+    var data = [{"name":"小明","yuwen":"80","shuxue":"90","yingyu":"70"},{"name":"小红","yuwen":"90","shuxue":"60","yingyu":"90"},{"name":"小亮","yuwen":"60","shuxue":"100","yingyu":"70"}]
+    var th_tr = ['姓名','语文','数学','英语','总分'];
+    var Tab = CreatTab.New('tab','test_tab',data,th_tr);
+    Tab.NewTab();
+    var number = ['1','2','3','4'];
+    Tab.bandClick(number);
+}
+    var CreatTab =
+    {
+        //data:后台数据;position:table位置;tab_tr:表名;tab_id:表格id
+        New:function(position,tab_id,data,tab_tr)
+        {
+            var Tab = {};
+            //生成无样式表格
+            Tab.NewTab = function()
+            {
+                var table = "<table cellpadding=0 cellspacing=0 id='"+tab_id+"'><thead>";
+                var th_tr = '<tr>';
+                for (var i = 0; i < tab_tr.length; i++)
+                {
+                    th_tr += '<th>'+tab_tr[i]+'</th>';
+                };
+                th_tr += '</tr>';
+                table += th_tr;
+                table += "</thead><tbody>";
+                var tr = Tab.generate();
+                table += tr;
+                table += "</tbody></table>";
+                document.getElementById(position).innerHTML = table;
+            }
+            //根据数据生成tr表格
+            Tab.generate = function()
+            {
+                var tr = '';
+                var td;
+                for (var i = data.length - 1; i >= 0; i--)
+                {
+                    add = Tab.addition(data[i]);
+                    tr += "<tr>";
+                    for (var item in data[i]){tr += '<td>'+data[i][item]+'</td>';}
+                    tr += '<td>'+add+'</td>'
+                    tr += '</tr>';
+                };
+                return tr;
+            }
+            //获取data中每行的和
+            Tab.addition = function(data)
+            {
+                var add = 0;
+                for (var item in data)
+                {
+                    if(!isNaN(Number(data[item])))
+                    {
+                        add += Number(data[item]);
+                    }
+                }
+                return add;
+            }
+            //给th绑定点击事件
+            Tab.bandClick = function(number)
+            {
+                var table = document.getElementById(tab_id);
+                var th = table.getElementsByTagName('th');
+                for (var i = th.length - 1; i >= 0; i--)
+                {
+                    for (var n = number.length - 1; n >= 0; n--)
+                    {
+                        if(i==number[n])
+                        {
+                            th[i].onclick = function()
+                            {
+                                Tab.sort(this.cellIndex);
+                            }
+                        }
+                    };
+                };
+            }
+            //给一列数据进行排序
+            Tab.sort = function (num)
+            {
+                //获取此列数字
+                var table = document.getElementById(tab_id);
+                var tr = table.getElementsByTagName('tr');
+                var newTr='';
+                var number = [];
+                for (var i = 1;i < tr.length; i++)
+                {
+                    if(tr[i].getElementsByTagName('td')[num])
+                    {
+                        number[i]=new Array();
+                        number[i]['cell'] = table.rows[i].cells[num].innerHTML
+                        number[i]['row'] = i
+                    }
+                };
+                //降序排列顺序
+                if(table.getAttribute('sort'))
+                {
+                    //小到大
+                    if(table.getAttribute('sort') == 'acs'){
+                        number.sort(function(x,y){return y['cell'] - x['cell'];})
+                        table.setAttribute('sort','desc')
+                    }else{
+                        number.sort(function(x,y){return x['cell'] - y['cell'];})
+                        table.setAttribute('sort','acs')
+                    }
+                }else{
+                    number.sort(function(x,y){return y['cell'] - x['cell'];})
+                    table.setAttribute('sort','desc')
+                }
+                //length-1是因为number的第0排没有数字
+                for (var i =0; i < number.length -1; i++) {
+                    newTr += '<tr>';
+                    newTr += tr[number[i]['row']].innerHTML;
+                    newTr += '</tr>';
+                }
+                //重新插入tr内
+                table.getElementsByTagName('tbody')[0].innerHTML = newTr;
+            }
+            return Tab;
+        }
+    }
+</script>
+</html>
