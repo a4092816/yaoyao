@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>计算星星数</title>
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+</head>
+<body>
+  <div id="re">
+      <p>输入增幅系数：<input type="" v-model="xs"></p>
+      <p>输入每元钱的星星数：<input type="" v-model="star"></p>
+      <p>{{Use}}</p>
+  </div>
+</body>
+<script>
+  var re = new Vue({
+      el:"#re",
+      data:{xs:'5',star:'6'},
+      computed:
+      {
+          Use:function()
+          {
+              var xs = Number(this.xs)/1000;
+              var q = 1;
+              var star = Number(this.star);
+              var re = '【'+q+'元:' + parseInt(q*star + (  (q * xs) * (q*star) ))+'】';
+              q = 8;
+              re += '【'+q+'元:' + parseInt(q*star + (  (q * xs) * (q*star) ))    +'】';
+              q = 18;
+              re += '【'+q+'元:' + parseInt(q*star + (  (q * xs) * (q*star) ))+'】';
+              q = 28;
+              re += '【'+q+'元:' + parseInt(q*star + (  (q * xs) * (q*star) ))+'】';
+              q = 58;
+              re += '【'+q+'元:' + parseInt(q*star + (  (q * xs) * (q*star) ))+'】';
+              q = 108;
+              re += '【'+q+'元:' + parseInt(q*star + (  (q * xs) * (q*star) ))+'】';
+              return re;
+          }
+      }
+  })
+</script>
+</html>
